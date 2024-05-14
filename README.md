@@ -1,19 +1,26 @@
 # Pokémon FireRed and LeafGreen
 
-[![Build Status][travis-badge]][travis]
+This is a fork of the [matching decompilation](https://github.com/pret/pokefirered) at [PRET](https://github.com/pret).
 
-[travis]: https://travis-ci.org/pret/pokefirered
-[travis-badge]: https://travis-ci.org/pret/pokefirered.svg?branch=master
+This branch, `mew-ram-event`, builds a binary that may be called (i.e, by ACE) to write a Mew-under-the-truck event into the savefile's ram script.
 
-This is a disassembly of Pokémon FireRed and LeafGreen.
+The following files are relevant:
+- [mew_script.s](data/mew_script.s) - 'Bootstrap' script, contains a function `SetMewEventToRamScript` to write to the RAM script, and the script for the Vermilion City sailor.
+- [ram_script.s](data/ram_script.s) - Code + map events + scripting to make the event happen. This is written to `0x0203FBC0` by `mew_script.s`.
+- [ld_script.ld](ld_script.ld) - Sets up memory addresses so that `ram_script.s` has a VMA in RAM, but an LMA in ROM (see https://sourceware.org/binutils/docs/ld/Output-Section-LMA.html)
 
-It builds the following ROMs:
+To build:
+```bash
+make
+```
 
-* [**pokefirered.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1616) `sha1: 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc`
-* [**pokeleafgreen.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1617) `sha1: 574fa542ffebb14be69902d1d36f1ec0a4afd71e`
-* [**pokefirered_rev1.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1672) `sha1: dd5945db9b930750cb39d00c84da8571feebf417`
-* [**pokeleafgreen_rev1.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1668) `sha1: 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e`
+which will produce two files: `pokefirered.gba` and `ram_event.bin`. The ROM will also contain the contents of `ram_event.bin` starting at `0x09000000`.
+
+To verify that the ROM is not modified (past `0x09000000` anyway), run
+```bash
+make compare
+```
+
+which will truncate the ROM to 16 MiB.
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
-
-For contacts and other pret projects, see [pret.github.io](https://pret.github.io/).

@@ -18,7 +18,7 @@
 
 extern u32 intr_main[];
 
-static void VBlankIntr(void);
+void VBlankIntr(void);
 static void HBlankIntr(void);
 static void VCountIntr(void);
 static void SerialIntr(void);
@@ -358,7 +358,7 @@ void SetSerialCallback(IntrCallback callback)
 extern void CopyBufferedValuesToGpuRegs(void);
 extern void ProcessDma3Requests(void);
 
-static void VBlankIntr(void)
+void VBlankIntr(void)
 {
     if (gWirelessCommType)
         RfuVSync();

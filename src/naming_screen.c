@@ -175,9 +175,9 @@ struct NamingScreenData
     /*0x1E3C*/ MainCallback returnCallback;
 };
 
-static EWRAM_DATA struct NamingScreenData * sNamingScreen = NULL;
+EWRAM_DATA struct NamingScreenData * sNamingScreen = NULL;
 
-static void CB2_LoadNamingScreen(void);
+void CB2_LoadNamingScreen(void);
 static void NamingScreen_Init(void);
 static void NamingScreen_InitBGs(void);
 static void CreateNamingScreenTask(void);
@@ -430,7 +430,7 @@ void DoNamingScreen(u8 templateNum, u8 *destBuffer, u16 monSpecies, u16 monGende
     }
 }
 
-static void CB2_LoadNamingScreen(void)
+void CB2_LoadNamingScreen(void)
 {
     switch (gMain.state)
     {

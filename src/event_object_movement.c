@@ -60,7 +60,7 @@ static void DoGroundEffects_OnSpawn(struct ObjectEvent *, struct Sprite *);
 static void DoGroundEffects_OnBeginStep(struct ObjectEvent *, struct Sprite *);
 static void DoGroundEffects_OnFinishStep(struct ObjectEvent *, struct Sprite *);
 static void CreateReflectionEffectSprites(void);
-static u8 GetObjectEventIdByLocalId(u8);
+u8 GetObjectEventIdByLocalId(u8);
 static u8 GetObjectEventIdByLocalIdAndMapInternal(u8, u8, u8);
 static bool8 GetAvailableObjectEventId(u16, u8, u8, u8 *);
 static void SetObjectEventDynamicGraphicsId(struct ObjectEvent *);
@@ -1297,7 +1297,7 @@ static u8 GetObjectEventIdByLocalIdAndMapInternal(u8 localId, u8 mapNum, u8 mapG
     return OBJECT_EVENTS_COUNT;
 }
 
-static u8 GetObjectEventIdByLocalId(u8 localId)
+u8 GetObjectEventIdByLocalId(u8 localId)
 {
     u8 i;
     for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
@@ -9408,3 +9408,22 @@ static void DoRippleFieldEffect(struct ObjectEvent *objectEvent, struct Sprite *
     gFieldEffectArguments[3] = 3;
     FieldEffectStart(FLDEFF_RIPPLE);
 }
+
+// void LoadTruckGfx(void) {
+//     struct ObjectEvent *obj = &gObjectEvents[GetObjectEventIdByLocalId(1)];
+//     struct Sprite *sprite = &gSprites[obj->spriteId];
+//     u8 *data = (u8*)OBJ_VRAM0 + TILE_OFFSET_4BPP(1024 - 8*8);
+//     // Disable animation
+//     obj->inanimate = TRUE;
+//     // Repoint sprite's tiles
+//     sprite->usingSheet = TRUE;
+//     sprite->oam.tileNum = sprite->sheetTileStart = 1024 - 8*8;
+//     // Copy tiles
+//     CpuFastCopy(BG_TILE_ADDR_4BPP(0x2E8), data + TILE_OFFSET_4BPP(24+1), 6 * TILE_SIZE_4BPP);
+//     CpuFastCopy(BG_TILE_ADDR_4BPP(0x2F0), data + TILE_OFFSET_4BPP(32+1), 6 * TILE_SIZE_4BPP);
+//     CpuFastCopy(BG_TILE_ADDR_4BPP(0x300), data + TILE_OFFSET_4BPP(40+1), 6 * TILE_SIZE_4BPP);
+//     CpuFastCopy(BG_TILE_ADDR_4BPP(0x2F6), data + TILE_OFFSET_4BPP(48+1), 6 * TILE_SIZE_4BPP);
+//     CpuFastCopy(BG_TILE_ADDR_4BPP(0x306), data + TILE_OFFSET_4BPP(56+1), 6 * TILE_SIZE_4BPP);
+//     // Load palette
+//     CpuFastCopy(&gPlttBufferFaded[BG_PLTT_ID(2)], &gPlttBufferFaded[OBJ_PLTT_ID(10)], PLTT_SIZE_4BPP);
+// }

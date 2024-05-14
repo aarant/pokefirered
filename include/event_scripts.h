@@ -1261,4 +1261,11 @@ extern const u8 TradeCenter_EventScript_Chair1[];
 extern const u8 TradeCenter_ConfirmLeaveRoom[];
 extern const u8 TradeCenter_TerminateLink[];
 
+// Mew event
+extern const u8 Mew_EventScript_Sailor[];
+extern const u8 Mew_MapEvents[];
+extern const u8 Mew_EventObjects[];
+extern const u8 Mew_Script_Start[];
+extern const u8 Mew_Script_End[];
+
 #endif //GUARD_EVENT_SCRIPTS_H

@@ -28,6 +28,7 @@
 #include "map_preview_screen.h"
 #include "metatile_behavior.h"
 #include "money.h"
+#include "naming_screen.h"
 #include "new_game.h"
 #include "new_menu_helpers.h"
 #include "overworld.h"
@@ -43,6 +44,7 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "start_menu.h"
+#include "strings.h"
 #include "tileset_anims.h"
 #include "trainer_pokemon_sprites.h"
 #include "vs_seeker.h"
@@ -397,7 +399,7 @@ void ApplyNewEncryptionKeyToGameStats(u32 newKey)
 
 // Routines related to object events
 
-static void LoadObjEventTemplatesFromHeader(void)
+void LoadObjEventTemplatesFromHeader(void)
 {
     u8 i, j;
     for (i = 0, j = 0; i < gMapHeader.events->objectEventCount; i++)
@@ -427,6 +429,41 @@ static void LoadObjEventTemplatesFromHeader(void)
         }
     }
 }
+
+// static const struct NamingScreenTemplate sJapaneseNamingScreenTemplate = {
+//     .copyExistingString = FALSE,
+//     .maxChars = 5, // JAPANESE_NAME_LENGTH
+//     .iconFunction = 3,
+//     .addGenderIcon = 1,
+//     .initialPage = 1,
+//     .title = gText_PkmnsNickname,
+// };
+
+// void VBlankIntr_CustomMew(void);
+
+// void SetVBlankIntr(void) {
+//     gIntrTable[4] = VBlankIntr_CustomMew;
+// }
+
+// TODO: DEBUG
+// void VBlankIntr_CustomMew(void) {
+//     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SSANNE_EXTERIOR)
+//         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(SSANNE_EXTERIOR))
+//     {
+//         // patch map header
+//         if (gMapHeader.events != (void*)SSAnne_MapEvents) {
+//             void* warps = (void*)gMapHeader.events->warps;
+//             gMapHeader.events = (void*)SSAnne_MapEvents;
+//             ((struct MapEvents *)gMapHeader.events)->warps = warps;
+//             LoadObjEventTemplatesFromHeader();
+//         // patch nickname length to 5
+//         } else if (gMain.callback2 == CB2_LoadNamingScreen && gMain.state == 1) {
+//             sNamingScreen->template = &sJapaneseNamingScreenTemplate;
+//             sNamingScreen->inputCharBaseXPos = (DISPLAY_WIDTH - 5 * 8) / 2 + 6;
+//         }
+//     }
+//     VBlankIntr();
+// }
 
 static void LoadSaveblockObjEventScripts(void)
 {
@@ -1675,6 +1712,11 @@ static void FieldCB_ShowMapNameOnContinue(void)
         ShowMapNamePopup(FALSE);
     FieldCB_WarpExitFadeFromBlack();
 }
+
+// void SetMewEventToRamScript(void) {
+//     if (!InitRamScript((u8*)Mew_EventScript_Sailor, Mew_Script_End - Mew_EventScript_Sailor, MAP_GROUP(VERMILION_CITY), MAP_NUM(VERMILION_CITY), 6))
+//         asm(".hword 0xEFFF"); // HALT
+// }
 
 void CB2_ContinueSavedGame(void)
 {

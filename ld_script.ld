@@ -29,6 +29,7 @@ SECTIONS {
     ALIGN(4)
     {
         __ewram_start = .;
+        data/ram_script.o(.text);
         __ewram_end = .;
     } > EWRAM
 
@@ -1044,6 +1045,7 @@ SECTIONS {
     ALIGN(4)
     {
         Mew_Script_Start = .;
+        data/mew_script.o(.text);
     } > ROM = 0
 
     .data.ewram :

@@ -376,6 +376,17 @@ void StartLegendaryBattle(void)
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
 
+// void StartLegendaryBattleMew(void) {
+//     u32 multi = VERSION_EMERALD;
+//     StartLegendaryBattle();
+//     PlayMapChosenOrBattleBGM(MUS_VS_MEWTWO);
+//     SetMonData(&gEnemyParty[0], MON_DATA_MET_GAME, &multi);
+//     multi = 0xC9; // MAPSEC_FARAWAY_ISLAND
+//     SetMonData(&gEnemyParty[0], MON_DATA_MET_LOCATION, &multi);
+//     gEnemyParty[0].box.language = LANGUAGE_JAPANESE;
+//     gEnemyParty[0].box.otName[5] = 0xFF; // terminate otName
+// }
+
 void StartGroudonKyogreBattle(void)
 {
     LockPlayerFieldControls();

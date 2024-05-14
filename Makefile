@@ -70,6 +70,7 @@ SHELL := /bin/bash -o pipefail
 
 ROM := poke$(BUILD_NAME).gba
 OBJ_DIR := build/$(BUILD_NAME)
+RAM_EVENT := ram_event.bin
 
 ELF = $(ROM:.gba=.elf)
 MAP = $(ROM:.gba=.map)
@@ -176,7 +177,7 @@ MAKEFLAGS += --no-print-directory
 
 AUTO_GEN_TARGETS :=
 
-all: tools rom
+all: tools rom ram
 
 syms: $(SYM)
 
@@ -184,6 +185,8 @@ rom: $(ROM)
 ifeq ($(COMPARE),1)
 	@$(SHA1) $(BUILD_NAME).sha1
 endif
+
+ram: $(RAM_EVENT)
 
 tools: $(TOOLDIRS)
 
@@ -197,6 +200,7 @@ compare:
 mostlyclean: tidy
 	rm -f $(SAMPLE_SUBDIR)/*.bin
 	rm -f $(CRY_SUBDIR)/*.bin
+	rm -f *.bin
 	$(RM) $(SONG_OBJS) $(MID_SUBDIR)/*.s
 	find . \( -iname '*.1bpp' -o -iname '*.4bpp' -o -iname '*.8bpp' -o -iname '*.gbapal' -o -iname '*.lz' -o -iname '*.latfont' -o -iname '*.hwjpnfont' -o -iname '*.fwjpnfont' \) -exec rm {} +
 	$(RM) $(DATA_ASM_SUBDIR)/layouts/layouts.inc $(DATA_ASM_SUBDIR)/layouts/layouts_table.inc
@@ -340,6 +344,12 @@ $(ELF): $(LD_SCRIPT) $(LD_SCRIPT_DEPS) $(OBJS)
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
+ifeq ($(COMPARE),1)
+	truncate --size=16MiB $@
+endif
+
+$(RAM_EVENT): $(ELF)
+	$(OBJCOPY) -O binary --only-section=custom_script --only-section=.ewram $< $@
 
 # "friendly" target names for convenience sake
 firered:                ; @$(MAKE) GAME_VERSION=FIRERED
