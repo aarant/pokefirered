@@ -25,6 +25,13 @@ SECTIONS {
         *libc.a:mallocr.o(.data);
     } > EWRAM
 
+    .ewram 0x0203FBC0 : AT (__ewram_lma)
+    ALIGN(4)
+    {
+        __ewram_start = .;
+        __ewram_end = .;
+    } > EWRAM
+
     iwram 0x3000000 (NOLOAD) :
     ALIGN(4)
     {
@@ -1032,6 +1039,20 @@ SECTIONS {
     {
         src/graphics.o(.rodata);
     } > ROM =0
+
+    custom_script 0x09000000 :
+    ALIGN(4)
+    {
+        Mew_Script_Start = .;
+    } > ROM = 0
+
+    .data.ewram :
+    ALIGN(4)
+    {
+        __ewram_lma = .;
+        . = . + (__ewram_end - __ewram_start);
+        Mew_Script_End = .;
+    } > ROM = 0
 
     extra :
     ALIGN(4)
