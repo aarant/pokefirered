@@ -65,6 +65,8 @@ SetMewEventToRamScript: @ 09000001
 	str	r2, [sp]
 	mov	r2, #0x3
 	mov	r3, #0x5
+	@ load relative
+	adr	r0, Mew_EventScript_Sailor
 	ldr	r4, pool_InitRamScript
 	bl	_custom_call_via_r4
 	lsl	r0, r0, #0x18
@@ -85,7 +87,6 @@ _custom_call_via_r4:
 	.word	Mew_EventScript_Sailor
 	.word	Mew_Script_End
 pool_InitRamScript: .word InitRamScript
-	.word	0x15151515 @ marker (151 for Mew ;)
 .Lfe128:
 	.size	 SetMewEventToRamScript,.Lfe128-SetMewEventToRamScript
 
